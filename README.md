@@ -324,9 +324,7 @@ Hermes Agent のセットアップ方法（プロバイダ / モデル設定、�
 |---|---|
 | `docker-latexガイド/docker-latex-guide.md` | VS Code + Docker + 卒論テンプレートの説明スライド（Marp） |
 | `README_thesis.md` | 卒論テンプレート用の旧 README（要旨の書式修正履歴つき） |
-| `ai-agent-setup-guide.md` | Hermes Agent のセットアップ解説（README 6 章からの移行先） |
-| `hermes-agent-install-notes.md` | Hermes Agent 導入の調査メモ |
-| `hermes-agent-config-guide.md` | Hermes Agent の設定ガイド |
+| `ai-agent-setup-guide.md` | Hermes Agent セットアップ＆設定ガイド |
 
 ## License
 
