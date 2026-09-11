@@ -24,7 +24,9 @@
   "mounts": [
     // Docker共有のnamed volumeを使いて、Cline、Hermes Agentの設定を引き継ぐ。
     // targetはパス直接指定でないとビルドエラー
-    "source=setting-cline,target=/root/.cline,type=volume",
-    "source=setting-hermes,target=/root/.hermes,type=volume"
-  ]
+    "source=setting-cline,target=/home/latex/.cline,type=volume",
+    "source=setting-hermes,target=/home/latex/.hermes,type=volume"
+  ],
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workdir,type=bind",
+	"workspaceFolder": "/workspace"
 }
