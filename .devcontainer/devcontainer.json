@@ -16,25 +16,15 @@
 			"extensions": [
 				"James-Yu.latex-workshop",
 				"mhutchie.git-graph",
-				// VS Code の ACP Client 拡張 (Hermes Agent を ACP で使う)
-				"formulahendry.acp-client",
-				// Clineいるなら
-				"saoudrizwan.claude-dev"
+				"formulahendry.acp-client",	// VS Code の ACP Client 拡張 (Hermes Agent を ACP で使う)
+				"saoudrizwan.claude-dev"		// Cline
 			]
 		}
 	},
-	"workspaceMount": "source=${localWorkspaceFolder},target=/workdir,type=bind",
-	"workspaceFolder": "/workdir",
-	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-	// Hermes のスキルを git 管理するため、~/.hermes/skills を /workdir/skills へ symlink する (冪等)
-	"postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/setup-skills.sh ${containerWorkspaceFolder}"
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Configure tool-specific properties.
-	// "customizations": {},
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+  "mounts": [
+    // Docker共有のnamed volumeを使いて、Cline、Hermes Agentの設定を引き継ぐ。
+    // targetはパス直接指定でないとビルドエラー
+    "source=setting-cline,target=/root/.cline,type=volume",
+    "source=setting-hermes,target=/root/.hermes,type=volume"
+  ]
 }
