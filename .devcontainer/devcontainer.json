@@ -11,6 +11,9 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
+	// ログイン(リモート)ユーザを root にする
+	"containerUser": "root",
+	"remoteUser": "root",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -21,11 +24,17 @@
 			]
 		}
 	},
+	// "initializeCommand": [
+		// Docker named volume のパーミッションを 777 にする。このコンテナは latex ユーザで動作するため、root で作成された volume のパーミッションが 755 のままだと、volume 内のファイルを latex ユーザが書き込めない。
+		// "docker run --rm -v setting-cline:/to-fix busybox chmod -R 777 /to-fix || true",
+		// "docker run --rm -v setting-hermes:/to-fix busybox chmod -R 777 /to-fix || true"
+	// ],
   "mounts": [
     // Docker共有のnamed volumeを使いて、Cline、Hermes Agentの設定を引き継ぐ。
     // targetはパス直接指定でないとビルドエラー
-    "source=setting-cline,target=/home/latex/.cline,type=volume",
-    "source=setting-hermes,target=/home/latex/.hermes,type=volume"
+    // remoteUser が root のため /root 配下にマウントする
+    "source=setting-latex-cline,target=/root/.cline,type=volume",
+    "source=setting-latex-hermes,target=/root/.hermes,type=volume"
   ],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace"

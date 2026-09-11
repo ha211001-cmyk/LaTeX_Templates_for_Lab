@@ -17,9 +17,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 元の既定ユーザー (latex) に戻す
-USER latex
-
 # Hermes Agent をインストールする
 # - ファイルに保存してから実行する (curl 失敗時もビルドを失敗させるため)
 # - --skip-setup        : 対話式セットアップ (APIキー設定) をスキップ。後で `hermes setup` で実行可能
@@ -31,3 +28,6 @@ USER latex
 RUN curl -fsSL https://hermes-agent.nousresearch.com/install.sh -o /tmp/hermes-install.sh \
     && bash /tmp/hermes-install.sh --skip-setup --non-interactive --skip-browser --skip-computer-use \
     && rm -f /tmp/hermes-install.sh
+
+# Git の出力を pager で止めないようにする
+RUN git config --global git.pager cat
