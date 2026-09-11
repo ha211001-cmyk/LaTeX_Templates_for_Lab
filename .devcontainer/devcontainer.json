@@ -27,6 +27,6 @@
     "source=setting-cline,target=/home/latex/.cline,type=volume",
     "source=setting-hermes,target=/home/latex/.hermes,type=volume"
   ],
-	"workspaceMount": "source=${localWorkspaceFolder},target=/workdir,type=bind",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace"
 }
