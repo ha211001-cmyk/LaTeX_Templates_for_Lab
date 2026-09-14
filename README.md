@@ -1,6 +1,6 @@
 # 研究室用 LaTeX テンプレート集 on VS Code + Docker
 
-このリポジトリは、**研究報告書・卒業論文（本旨）・卒業論文要旨の 3 種類の LaTeX テンプレート**と、環境構築が不要な **VS Code + Docker 開発環境**をまとめたものです。
+このリポジトリは、**研究報告書・修士中間報告書・卒業論文（本旨）・卒業論文要旨・Beamerスライドの 5 種類の LaTeX テンプレート**と、環境構築が不要な **VS Code + Docker 開発環境**をまとめたものです。
 
 > AI エージェント（Hermes Agent）の解説は [ai-agent-setup-guide.md](ai-agent-setup-guide.md) へ移行しました。
 
@@ -59,11 +59,13 @@ which latexmk   # パスが表示されれば OK
 
 | 用途 | フォルダ | メインファイル |
 |---|---|---|
-| 研究報告書（ゼミ・進捗報告など） | `Latex_Report/` | `main.tex` |
+| 研究報告書（ゼミ・進捗報告など） | `LaTeX_Research_Report/` | `report_main.tex` |
+| 修士中間報告書 | `LaTeX_Master_Interim_Report/` | `interim_main.tex` |
 | 卒業論文・修士論文（本旨） | `LaTeX_Thesis/` | `thesis_main.tex` |
 | 卒業論文・修士論文（要旨） | `LaTeX_Thesis_Abstract/` | `abstract_main.tex` |
+| 発表スライド（Beamer） | `LaTeX_Slide_Beamer/` | `slide_main.tex` |
 
-> **ヒント** このリポジトリは全テンプレート共通の環境（`.devcontainer/` や `scripts/`）をルートに持つ構成です。1 つの論文を書き始めるときは、使うテンプレートのフォルダを **`.devcontainer/`・`.vscode/`・`.gitignore` と一緒に**新しいリポジトリへコピーするのがおすすめです（`latexmkrc` は各テンプレートフォルダに入っているので、コンパイル設定はフォルダごとに動きます）。
+> **ヒント** このリポジトリは全テンプレート共通の環境（`.devcontainer/`・`.vscode/`・`.gitignore`）をルートに持つ構成です。1 つの論文を書き始めるときは、使うテンプレートのフォルダを **`.devcontainer/`・`.vscode/`・`.gitignore` と一緒に**新しいリポジトリへコピーするのがおすすめです（`latexmkrc` は各テンプレートフォルダに入っているので、コンパイル設定はフォルダごとに動きます）。
 
 ### 1.4 はじめてのコンパイル
 
@@ -76,15 +78,17 @@ which latexmk   # パスが表示されれば OK
    ```
 5. ソースと同じフォルダに `thesis_main.pdf` が生成されます。**TeX アイコン →「View LaTeX PDF」** または虫眼鏡ボタンでプレビューを開けます
 
-生成される `.aux`・`.log`・`.dvi` などは中間ファイルで、`.gitignore` 済みなのでコミット不要です。
+生成される `.aux`・`.log`・`.dvi` などは中間ファイルで、`.gitignore` 済みなのでコミット不要です。生成 PDF は追跡対象です。
 
 ### 1.5 最初に書き換える場所
 
 | テンプレート | 書き換える箇所 |
 |---|---|
-| 報告書 `Latex_Report/main.tex` | `\title{...}`、`\author{...}`、`\date{...}` |
+| 研究報告 `LaTeX_Research_Report/report_main.tex` | `\title{...}`、`\author{...}`、`\date{...}` |
+| 中間報告 `LaTeX_Master_Interim_Report/interim_main.tex` | 冒頭の `\JapaneseTitle`・`\EnglishTitle`・`\ReportDate`・`\Presenter`・`\Supervisor` |
 | 本旨 `LaTeX_Thesis/thesis_main.tex` | 冒頭の表紙設定 `\settitlepage{年度}{大学名}{研究科名}{文書種別}{日本語タイトル}{英語タイトル}{提出日}{氏名}{学籍番号}`、`\supervisor{指導教員名}{役職}`、`\thefaculty`・`\thecourse` |
 | 要旨 `LaTeX_Thesis_Abstract/abstract_main.tex` | `\title{...}`、`\author{...}`、`\abstracttxt{...}`（アブストラクト本文）、`\supervisor{...}{...}` |
+| スライド `LaTeX_Slide_Beamer/slide_main.tex` | 冒頭のタイトル情報（`\title`・`\author`・`\institute`・`\date`・`\titlegraphic` の指導教員） |
 
 書き換えたら保存するだけで再コンパイルされます。
 
@@ -92,12 +96,12 @@ which latexmk   # パスが表示されれば OK
 
 ## 2. テンプレートの詳細
 
-3 テンプレートすべて共通の技術スタックです。
+5 テンプレートすべて共通の技術スタックです。
 
 - 組版エンジン: **uplatex + dvipdfmx**（日本語組版に最適）
 - ビルド: **latexmk**（各フォルダの `latexmkrc` に `uplatex` / `upbibtex` / `dvipdfmx` / `mendex` の設定済み）
-- ドキュメントクラス: `jsarticle`
-- 参考文献: `bibfile.bib` + `ssice.bst`
+- ドキュメントクラス: `jsarticle`（スライドのみ `beamer`）
+- 参考文献: `bibfile.bib` + `umlab.bst`（スライドは `thebibliography` 直書き）
 
 ### 2.1 `LaTeX_Thesis/` — 卒論・修論（本旨）
 
@@ -125,7 +129,7 @@ LaTeX_Thesis/
 ├── header.tex         # プリアンブル（スタイル・マクロ定義）
 ├── latexmkrc          # latexmk 設定
 ├── bibfile.bib        # 参考文献 DB
-├── ssice.bst          # 参考文献スタイル
+├── umlab.bst          # 参考文献スタイル
 └── fig/               # 図の画像（pdf / png / jpg）
 ```
 
@@ -137,12 +141,12 @@ LaTeX_Thesis/
 - **1 段あたり全角 26 文字・1 ページ 59 行**に収まるよう字間・行送りを自動調整（`header.tex` の `\GraduateSetKanjiskipForTwentySix`）
 - タイトル 14pt・発表者/指導教員の表・アブストラクト欄を上部に配置
 - ページ番号はデフォルトで非表示（`\pagestyle{empty}`）。コメントアウトすると「― n ―」形式の番号が付きます
-- 参考文献は `\bibliography{bibfile}` 方式（`ssice.bst`）
+- 参考文献は `\bibliography{bibfile}` 方式（`umlab.bst`）
 - 図表のキャプションは英語表記（Fig. / Table）が基本
 
 > 書式は大学・年度によって変わることがあるため、**最新の指定と必ず照合**してください。修正履歴メモは `いろいろ/README_thesis.md` にあります。
 
-### 2.3 `Latex_Report/` — 研究報告書
+### 2.3 `LaTeX_Research_Report/` — 研究報告書
 
 ゼミや進捗報告など、手軽に使う報告書向けテンプレートです。
 
@@ -151,15 +155,32 @@ LaTeX_Thesis/
 - 定理環境と自作コマンド（`\bm` `\del` `\diag`）を定義済み
 - 本文に**報告書の推奨章立て**（概要 → 研究計画 → 導入 → 本題 → 結論）のサンプルが入っています
 
-### 2.4 全テンプレート共通のファイル
+### 2.4 `LaTeX_Master_Interim_Report/` — 修士中間報告書
+
+修士中間報告用のテンプレートです。既存の報告書と同じ用紙サイズ、余白、タイトル配置、二段組、見出し間隔を維持しています。
+
+- A4 **9pt**・`multicol` による二段組
+- 冒頭の `\JapaneseTitle`・`\EnglishTitle`・`\ReportDate`・`\Presenter`・`\Supervisor` を書き換えて使用
+- 参考文献は `\bibliography{bibfile}` 方式（`umlab.bst`）
+- 個別の `README.md` あり
+
+### 2.5 `LaTeX_Slide_Beamer/` — 発表スライド（Beamer）
+
+卒業論文・修士論文の発表スライド用の Beamer テンプレートです。
+
+- 16:9（`aspectratio=169`）、`uplatex + dvipdfmx`
+- 発表用（`\pause` あり）と配布用（`handout`）の切り替え可
+- 参考文献は `thebibliography` 直書き（詳細は `LaTeX_Slide_Beamer/README.md` 参照）
+
+### 2.6 全テンプレート共通のファイル
 
 | ファイル | 役割 |
 |---|---|
-| `main.tex` など | 本文（原稿を書く場所） |
+| `*_main.tex` など | 本文（原稿を書く場所） |
 | `header.tex` | プリアンブル（パッケージ読み込み・スタイル・マクロ定義） |
 | `latexmkrc` | latexmk のビルド設定 |
-| `bibfile.bib` | 参考文献データベース |
-| `ssice.bst` | 参考文献の並び・書式スタイル |
+| `bibfile.bib` | 参考文献データベース（スライド除く） |
+| `umlab.bst` | 参考文献の並び・書式スタイル（スライド除く） |
 | `fig/` | 図の画像を置くフォルダ |
 
 ---
@@ -176,8 +197,7 @@ LaTeX_Thesis/
 Dev Container のビルド内容（`.devcontainer/`）:
 
 - `Dockerfile`: `being24/latex-docker` をベースに `build-essential`・`xz-utils` を追加。AI エージェント（Hermes Agent）向けの環境も同梱（詳細は [ai-agent-setup-guide.md](ai-agent-setup-guide.md)）
-- `devcontainer.json`: VS Code 拡張（LaTeX Workshop / Git Graph ほか）の自動インストール、`postCreateCommand` で `setup-skills.sh` を実行
-- `setup-skills.sh`: エージェントのスキルを git 管理するための移行スクリプト（冪等）
+- `devcontainer.json`: VS Code 拡張（LaTeX Workshop / Git Graph ほか）の自動インストール
 
 ### 3.2 docker コマンドでの手動起動（Dev Container を使わない場合）
 
@@ -245,8 +265,7 @@ dvipdfmx main.dvi           # PDF 化
 | `.vscode/settings.json` | LaTeX Workshop のツール・レシピ・ビューア設定 |
 | `.devcontainer/devcontainer.json` | コンテナの設定（ビルド元・拡張・起動フック） |
 | `.devcontainer/Dockerfile` | ベースイメージへの依存追加（AI エージェント環境含む） |
-| `.devcontainer/setup-skills.sh` | スキルの git 管理移行（冪等） |
-| `.gitignore` | LaTeX 中間ファイル等の生成物を除外 |
+| `.gitignore` | LaTeX 中間ファイル等の生成物を除外（生成 PDF は追跡する） |
 
 ---
 
@@ -322,8 +341,10 @@ Hermes Agent のセットアップ方法（プロバイダ / モデル設定、�
 
 | ファイル | 内容 |
 |---|---|
-| `docker-latexガイド/docker-latex-guide.md` | VS Code + Docker + 卒論テンプレートの説明スライド（Marp） |
-| `README_thesis.md` | 卒論テンプレート用の旧 README（要旨の書式修正履歴つき） |
+| `いろいろ/docker-latexガイド/docker-latex-guide.md` | VS Code + Docker + 卒論テンプレートの説明スライド（Marp） |
+| `LaTeX_Thesis/README_thesis.md` | 卒論テンプレート用の旧 README（要旨の書式修正履歴つき） |
+| `LaTeX_Master_Interim_Report/README.md` | 修士中間報告書テンプレートの README |
+| `LaTeX_Slide_Beamer/README.md` | Beamer スライドテンプレートの README |
 | `ai-agent-setup-guide.md` | Hermes Agent セットアップ＆設定ガイド |
 
 ## License

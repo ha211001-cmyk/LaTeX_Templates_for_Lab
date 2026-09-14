@@ -23,6 +23,7 @@ Thumbs.db
 *.dvi
 *.xdv
 *-converted-to.*
+# NOTE: 生成 PDF は追跡する。図用 PDF（fig/*.pdf）を除外しないよう *.pdf は ignore しない。
 # these rules might exclude image files for figures etc.
 # *.ps
 # *.eps
