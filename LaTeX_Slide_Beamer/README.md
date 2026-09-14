@@ -8,7 +8,7 @@
 | ファイル | 説明 |
 | --- | --- |
 | `slide_main.tex` | メインファイル（スライド本体。ここを編集する） |
-| `header.tex` | 共通設定（フォント・パッケージ・フッターなど） |
+| `slide_preamble.tex` | 共通設定（フォント・パッケージ・フッターなど） |
 | `latexmkrc` | latexmk のビルド設定（uplatex + dvipdfmx） |
 | `fig/` | 画像を置くフォルダ（サンプル: `fig_1.png`, `fig_2.png`） |
 | `movie/` | 動画ファイル置き場（サンプル: `soft_material_recognition.mp4`。**使用不可・未使用**） |
@@ -57,7 +57,7 @@ latexmk slide_main.tex
 
 - **テーマ変更**: `slide_main.tex` で `\usetheme{Madrid}` などを指定
 - **画面比率**: `\documentclass` の `aspectratio=169`（16:9）。`43` で 4:3 に変更可
-- **フッター**: 右下に「ページ番号/総ページ数」を表示（`header.tex` で変更可）
+- **フッター**: 右下に「ページ番号/総ページ数」を表示（`slide_preamble.tex` で変更可）
 - **セクションページ**: 各セクションの最初にタイトルスライドを自動挿入
 - **目次**: 目次に載せたくないセクションは `\section*{...}` を使う
 - **動画: 使用不可**

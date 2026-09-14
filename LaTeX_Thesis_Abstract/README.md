@@ -7,7 +7,7 @@
 | ファイル | 説明 |
 | --- | --- |
 | `abstract_main.tex` | メインファイル（ここに原稿を書く） |
-| `header.tex` | プリアンブル（余白・字間・行送り調整含む） |
+| `abstract_preamble.tex` | プリアンブル（余白・字間・行送り調整含む） |
 | `latexmkrc` | latexmk のビルド設定（uplatex + dvipdfmx） |
 | `bibfile.bib` | 参考文献データベース |
 | `umlab.bst` | 参考文献スタイル |
@@ -33,7 +33,7 @@ VS Code + LaTeX Workshop なら保存時に自動コンパイルされます。
 ## 書式
 
 - A4 **二段組 9pt**・左右余白 15mm・段間 10mm
-- **1 段あたり全角 26 文字・1 ページ 59 行**に収まるよう字間・行送りを自動調整（`header.tex` の `\GraduateSetKanjiskipForTwentySix`）
+- **1 段あたり全角 26 文字・1 ページ 59 行**に収まるよう字間・行送りを自動調整（`abstract_preamble.tex` の `\GraduateSetKanjiskipForTwentySix`）
 - ページ番号はデフォルトで非表示（`\pagestyle{empty}`）
 - 参考文献は `\bibliography{bibfile}` 方式（`umlab.bst`）
 - 図表のキャプションは英語表記（Fig. / Table）が基本

@@ -126,7 +126,7 @@ which latexmk   # パスが表示されれば OK
 ```
 LaTeX_Thesis/
 ├── thesis_main.tex    # 本文（ここに原稿を書く）
-├── header.tex         # プリアンブル（スタイル・マクロ定義）
+├── thesis_preamble.tex # プリアンブル（スタイル・マクロ定義）
 ├── latexmkrc          # latexmk 設定
 ├── bibfile.bib        # 参考文献 DB
 ├── umlab.bst          # 参考文献スタイル
@@ -138,7 +138,7 @@ LaTeX_Thesis/
 要旨（アブストラクト）は大学指定の書式に合わせて調整済みのテンプレートです。
 
 - A4 **二段組 9pt**・左右余白 15mm・段間 10mm
-- **1 段あたり全角 26 文字・1 ページ 59 行**に収まるよう字間・行送りを自動調整（`header.tex` の `\GraduateSetKanjiskipForTwentySix`）
+- **1 段あたり全角 26 文字・1 ページ 59 行**に収まるよう字間・行送りを自動調整（`abstract_preamble.tex` の `\GraduateSetKanjiskipForTwentySix`）
 - タイトル 14pt・発表者/指導教員の表・アブストラクト欄を上部に配置
 - ページ番号はデフォルトで非表示（`\pagestyle{empty}`）。コメントアウトすると「― n ―」形式の番号が付きます
 - 参考文献は `\bibliography{bibfile}` 方式（`umlab.bst`）
@@ -177,7 +177,7 @@ LaTeX_Thesis/
 | ファイル | 役割 |
 |---|---|
 | `*_main.tex` など | 本文（原稿を書く場所） |
-| `header.tex` | プリアンブル（パッケージ読み込み・スタイル・マクロ定義） |
+| `*_preamble.tex`（例: `thesis_preamble.tex`） | プリアンブル（パッケージ読み込み・スタイル・マクロ定義） |
 | `latexmkrc` | latexmk のビルド設定 |
 | `bibfile.bib` | 参考文献データベース（スライド除く） |
 | `umlab.bst` | 参考文献の並び・書式スタイル（スライド除く） |
@@ -313,7 +313,7 @@ Hermes Agent のセットアップ方法（プロバイダ / モデル設定、�
 | PDF が生成されない | プレビューで PDF を開いたままにしない（ファイルロック）。TeX アイコン →「View LaTeX Log」でログを確認 |
 | ビルド時に `This file needs format 'pLaTeX2e'` と出る | メインファイル先頭の `% !TEX program = latexmk` を**削除**する。このマジックコメントがあると LaTeX Workshop が `latexmk ... -pdf -f` を実行して **pdflatex を強制**するため（本テンプレートは uplatex 前提。エンジンは各フォルダの `latexmkrc` が決める）。代わりに先頭に `% !TEX root = ./メインファイル名.tex` を置く |
 | 開いているファイルと違うファイルがビルドされる（複数フォルダ構成） | 各メインファイルの先頭に `% !TEX root = ./<そのファイル名>.tex` を書く（このリポジトリの全テンプレートで設定済み）。フォルダをコピーして使うときはファイル名に合わせて付け直す |
-| ビルド時にフォントの警告が出る | `header.tex` の「本文を細字に設定」ブロックをコメントアウトすると解消します |
+| ビルド時にフォントの警告が出る | `thesis_preamble.tex` の「本文を細字に設定」ブロックをコメントアウトすると解消します |
 | Overleaf でエラーになる | コンパイラを「LaTeX」に設定し、`latexmkrc` をアップロードする |
 | 画像が表示されない | `fig/` にファイルを置き、`\includegraphics[width=...]{fig/ファイル名}` のパス・拡張子を確認 |
 | 参考文献が出ない | `\cite{キー}` のキーと `bibfile.bib` のエントリが一致しているか確認 |

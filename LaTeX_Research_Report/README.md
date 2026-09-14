@@ -7,7 +7,7 @@
 | ファイル | 説明 |
 | --- | --- |
 | `report_main.tex` | メインファイル（ここに原稿を書く） |
-| `header.tex` | プリアンブル（余白・パッケージ・自作コマンド・定理環境） |
+| `report_preamble.tex` | プリアンブル（余白・パッケージ・自作コマンド・定理環境） |
 | `latexmkrc` | latexmk のビルド設定（uplatex + dvipdfmx） |
 | `bibfile.bib` | 参考文献データベース |
 | `umlab.bst` | 参考文献スタイル |

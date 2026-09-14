@@ -13,17 +13,28 @@
 	},
 	// ログイン(リモート)ユーザを root にする
 	"containerUser": "root",
-	"remoteUser": "root",
+		"remoteUser": "root",
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"James-Yu.latex-workshop",
 				"mhutchie.git-graph",
 				"formulahendry.acp-client",	// VS Code の ACP Client 拡張 (Hermes Agent を ACP で使う)
-				"saoudrizwan.claude-dev"		// Cline
+				"saoudrizwan.claude-dev",		// Cline
+				"Continue.continue"			// Continue
 			]
 		}
 	},
+	// AI エージェントの設定・履歴を named volume に永続化する
+	// コンテナをリビルドしても設定が消えない
+	// Docker共有のnamed volumeを使いて、Cline、Hermes Agentの設定を引き継ぐ。
+	// targetはパス直接指定でないとビルドエラー
+	// remoteUser が root のため /root 配下にマウントする
+  "mounts": [
+    "source=setting-latex-cline,target=/root/.cline,type=volume",
+		"source=setting-latex-continue,target=/root/.continue,type=volume",	// Continue (~/.continue/config.yaml, history)
+    "source=setting-latex-hermes,target=/root/.hermes,type=volume"
+  ],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace"
 }
